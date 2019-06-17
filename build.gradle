@@ -1,12 +1,14 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
 	id 'java'
-	id 'net.ltgt.apt' version '0.21'
 }
 
 apply plugin: 'io.spring.dependency-management'
-
-apply plugin: 'net.ltgt.apt-idea'
+dependencyManagement {
+	imports {
+		mavenBom "io.crnk:crnk-bom:$CRNK_VERSION"
+	}
+}
 
 group = 'ru.offer'
 version = '0.0.1-SNAPSHOT'
@@ -20,23 +22,27 @@ configurations {
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'com.github.jasminb:jsonapi-converter:0.9'
-	
-	implementation group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
-	annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
-
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	implementation 'io.crnk:crnk-setup-spring-boot2'
+	implementation	'io.crnk:crnk-data-jpa'
+	implementation 'io.crnk:crnk-home'
+
+	// Actication of plain JSON format (simplify JSON API data fromat)
+	//	implementation 'io.crnk:crnk-format-plain-json'
+
+
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.199'
-	testAnnotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
 }

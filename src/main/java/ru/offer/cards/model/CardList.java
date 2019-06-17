@@ -1,5 +1,6 @@
 package ru.offer.cards.model;
 
+import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@JsonApiResource(type = "list", resourcePath = "lists")
 public class CardList {
 
     @Id
