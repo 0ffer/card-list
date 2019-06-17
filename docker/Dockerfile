@@ -1,0 +1,1 @@
+FROM gradle:5.4-jdk12
