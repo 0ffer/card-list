@@ -16,11 +16,14 @@ import java.util.UUID;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
     private String title;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String shortLink;
 
     private String content;
 }

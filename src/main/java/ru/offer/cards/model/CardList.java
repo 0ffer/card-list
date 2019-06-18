@@ -21,6 +21,7 @@ public class CardList {
     private String title;
 
     @OneToMany
+    @JoinColumn(name = "list_id")
     private List<Card> cards = new ArrayList<>();
 
 }

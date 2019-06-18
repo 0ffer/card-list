@@ -1,4 +1,4 @@
-package ru.offer.cards.crnk;
+package ru.offer.cards.repository;
 
 import io.crnk.data.jpa.JpaEntityRepositoryBase;
 import org.springframework.stereotype.Service;
