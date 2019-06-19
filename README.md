@@ -12,3 +12,17 @@ Go into 'docker' folder and run the next command:
 * __delete-all-data__: docker-compose -p cards down --rmi local --volumes
 
 Application can be accessed on 8080 port.
+
+### test data
+
+You can create some test data on startup. 
+
+For this need to activate spring profile __init-test-data__
+
+If some data already exist in database, generation will interrupted.
+
+### documentation
+
+The documentation was generated when project builds.
+
+You can find it in _build/asciidoc/html5_ directory.

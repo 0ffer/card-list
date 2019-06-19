@@ -1,12 +1,12 @@
 package ru.offer.cards.model;
 
+import io.crnk.core.resource.annotations.JsonApiField;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -22,7 +22,9 @@ public class Card {
     @NotNull
     private String title;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique=true, nullable = false, insertable = false, updatable = false)
+    @Generated(GenerationTime.INSERT)
+    @JsonApiField(deletable = false, patchable = false, postable = false)
     private String shortLink;
 
     private String content;
