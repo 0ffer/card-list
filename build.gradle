@@ -1,22 +1,23 @@
+buildscript {
+	dependencies {
+		classpath "io.crnk:crnk-gen-gradle:$CRNK_VERSION"
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
-
 	id "org.liquibase.gradle" version "2.0.1"
+	id 'org.asciidoctor.convert' version "2.2.0"
 }
 
-apply plugin: 'io.spring.dependency-management'
-dependencyManagement {
-	imports {
-		mavenBom "io.crnk:crnk-bom:$CRNK_VERSION"
-	}
-}
 
 group = 'ru.offer'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '12'
 
 configurations {
+	crnkJavaDocToXmlAdditional
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -28,34 +29,80 @@ repositories {
 }
 
 dependencies {
-	liquibaseRuntime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-	liquibaseRuntime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
-	liquibaseRuntime group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
-	liquibaseRuntime 'org.liquibase:liquibase-core'
-	liquibaseRuntime 'org.postgresql:postgresql:42.2.5'
+	implementation platform("io.crnk:crnk-bom:$CRNK_VERSION")
+	implementation platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion")
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	compile 'org.postgresql:postgresql:42.2.5'
-
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
 	implementation 'io.crnk:crnk-setup-spring-boot2'
-	implementation	'io.crnk:crnk-data-jpa'
+	implementation 'io.crnk:crnk-data-jpa'
 	implementation 'io.crnk:crnk-home'
+
+	implementation 'org.liquibase:liquibase-core'
+
+	runtimeOnly 'org.postgresql:postgresql:42.2.5'
+
+	compileOnly "org.projectlombok:lombok:$lombokVerion"
+	annotationProcessor "org.projectlombok:lombok:$lombokVerion"
 
 	// Actication of plain JSON format (simplify JSON API data fromat)
 	//implementation 'io.crnk:crnk-format-plain-json'
 
-	compile 'org.liquibase:liquibase-core'
-
+	testCompileOnly "org.projectlombok:lombok:$lombokVerion"
+	testAnnotationProcessor "org.projectlombok:lombok:$lombokVerion"
+	testImplementation 'com.squareup.okhttp3:okhttp'
+	testImplementation "io.crnk:crnk-client"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.199'
-	testCompile "io.crnk:crnk-client"
-	testCompile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+	// Deps for documentation generation.
+	crnkJavaDocToXmlAdditional "javax.xml.bind:jaxb-api:2.2.11"
+	crnkJavaDocToXmlAdditional "com.sun.xml.bind:jaxb-core:2.2.11"
+	crnkJavaDocToXmlAdditional "com.sun.xml.bind:jaxb-impl:2.2.11"
+	crnkJavaDocToXmlAdditional "javax.activation:activation:1.1.1"
+
+	liquibaseRuntime 'ch.qos.logback:logback-classic:1.2.3'
+	liquibaseRuntime 'ch.qos.logback:logback-core:1.2.3'
+	liquibaseRuntime 'org.slf4j:slf4j-api:1.7.26'
+	liquibaseRuntime 'org.liquibase:liquibase-core'
+	liquibaseRuntime 'org.postgresql:postgresql:42.2.5'
 }
+
+apply plugin: 'crnk-gen'
+crnkGen {
+	runtime {
+		configuration = 'test'
+	}
+
+	forked = false
+	resourcePackages = ['ru.offer.cards.model']
+
+	asciidoc {
+		enabled = true
+	}
+}
+crnkGen.init()
+
+/* region documentation */
+
+crnkJavadocToXml {
+	options.getDocletpath().addAll(project.configurations.crnkJavaDocToXmlAdditional.getFiles())
+}
+
+asciidoctor {
+	sourceDir = file('build/generated/source/asciidoc')
+	backends = ['html5']
+	attributes 'source-highlighter': 'coderay'
+	sources {
+		include 'index.adoc'
+	}
+}
+
+tasks.asciidoctor.dependsOn generateAsciidoc
+tasks.build.dependsOn asciidoctor
+
+/* endregion documentation */
 
 liquibase {
 	activities {
