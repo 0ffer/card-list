@@ -10,6 +10,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+/**
+ * Simple card presentation.
+ *
+ * It has auto generated short link unique property.
+ *
+ * @author Stas Melnichuk
+ */
 @Data
 @Entity
 @JsonApiResource(type = "card", resourcePath = "cards")

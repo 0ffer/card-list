@@ -8,6 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Card list representation.
+ *
+ * @author Stas Melnichuk
+ */
 @Data
 @Entity
 @JsonApiResource(type = "list", resourcePath = "lists")

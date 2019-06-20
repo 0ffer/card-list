@@ -100,6 +100,12 @@ asciidoctor {
 	}
 }
 
+task copyDocumentationToResources(type: Copy) {
+	from "$buildDir/asciidoc/html5"
+	into sourceSets.main.resources.getSrcDirs().first().listFiles({ File file -> file.isDirectory() && file.name.endsWith("static")} as FileFilter).first()
+}
+tasks.copyDocumentationToResources.dependsOn asciidoctor
+
 tasks.test.doFirst {
 	delete 'build/generated/source/asciidoc'
 }

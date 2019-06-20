@@ -40,7 +40,7 @@ public class TestDataLoader {
                 val cardsCount = (Long) em.createQuery("SELECT COUNT(c) FROM Card c").getSingleResult();
                 val cardListsCount = (Long) em.createQuery("SELECT COUNT(c) FROM CardList c").getSingleResult();
                 if (cardsCount!=0 || cardListsCount!=0) {
-                    log.info("There is yet exist some data. Interrupt generation.");
+                    log.warning("There is yet exist some data. Interrupt generation.");
                     return null;
                 }
 

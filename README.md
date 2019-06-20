@@ -25,4 +25,6 @@ If some data already exist in database, generation will interrupted.
 
 The documentation was generated when project builds.
 
-You can find it in _build/asciidoc/html5_ directory.
+Before build project - run task "copyDocumentationToResources"
+
+Docs will be included to static resourses and available on the root app path.
