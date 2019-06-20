@@ -1,3 +1,5 @@
+crnk:
+  path-prefix: /api
 spring:
   datasource:
     url: jdbc:postgresql://db:5432/postgres
