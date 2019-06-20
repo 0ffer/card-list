@@ -5,10 +5,11 @@ services:
     build: .
     volumes:
       - ../:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /app
     ports:
       - 8080:8080
-    command: gradle clean copyDocumentationToResources bootRun
+    command: bash -c "gradle --no-daemon clean copyDocumentationToResources build && java -jar ./build/libs/*.jar"
     depends_on:
       - db
 
