@@ -51,6 +51,8 @@ public class TestDataLoader {
                 createCard("third", "third card content", thirdCardList);
                 createCard("fourth", "fourth card content", thirdCardList);
 
+                log.info("Test data was initialized.");
+
                 return null;
             });
     }

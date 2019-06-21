@@ -9,6 +9,7 @@ plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
 	id "org.liquibase.gradle" version "2.0.1"
 	id 'org.asciidoctor.convert' version "2.2.0"
+	id 'com.google.cloud.tools.jib' version '1.3.0'
 }
 
 
@@ -115,6 +116,20 @@ tasks.asciidoctor.dependsOn generateAsciidoc
 tasks.build.dependsOn asciidoctor
 
 /* endregion documentation */
+
+/* region docker image creation */
+
+jib {
+	from {
+		image = 'openjdk:12-alpine'
+	}
+	to {
+		image = '0ffer/card-list'
+		credHelper = 'secretservice'
+	}
+}
+
+/* endregion docker image creation */
 
 liquibase {
 	activities {
