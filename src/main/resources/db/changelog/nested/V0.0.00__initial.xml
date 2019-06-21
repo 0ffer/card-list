@@ -14,7 +14,7 @@
             <column name="title" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="list_id" type="BIGINT"/>
+            <column name="card_list_id" type="BIGINT"/>
         </createTable>
     </changeSet>
     <changeSet author="stas (generated)" id="1560946219794-2">
@@ -31,6 +31,6 @@
         <addUniqueConstraint columnNames="short_link" constraintName="uk_5q4hgyuj20w5cktao5ku7bffi" tableName="card"/>
     </changeSet>
     <changeSet author="stas (generated)" id="1560946219794-4">
-        <addForeignKeyConstraint baseColumnNames="list_id" baseTableName="card" constraintName="fkc6iqrns8c6yuciaxyvpf2lfg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="card_list" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="card_list_id" baseTableName="card" constraintName="fkc6iqrns8c6yuciaxyvpf2lfg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="card_list" validate="true"/>
     </changeSet>
 </databaseChangeLog>

@@ -13,7 +13,6 @@ import ru.offer.cards.repository.CardRepo;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.util.Arrays;
 
 @Configuration
 @Profile("init-test-data")
@@ -36,39 +35,38 @@ public class TestDataLoader {
     public void setup() {
         transactionRunner.doInTransaction(() ->
             {
-
                 val cardsCount = (Long) em.createQuery("SELECT COUNT(c) FROM Card c").getSingleResult();
                 val cardListsCount = (Long) em.createQuery("SELECT COUNT(c) FROM CardList c").getSingleResult();
                 if (cardsCount!=0 || cardListsCount!=0) {
-                    log.warning("There is yet exist some data. Interrupt generation.");
+                    log.warning("There is yet exist some data. Interrupt data generation.");
                     return null;
                 }
 
-                val firstCard = createCard("first", "first card content");
-                val secondCard = createCard("second", "second card content");
-                val thirdCard = createCard("third", "third card content");
-                val fourthCard = createCard("fourth", "fourth card content");
+                val firstCardList = createCardList("first");
+                val secondCardList = createCardList("second");
+                val thirdCardList = createCardList("third");
 
-                createCardList("first");
-                createCardList("second", firstCard);
-                createCardList("third", secondCard, thirdCard, fourthCard);
+                createCard("first", "first card content", secondCardList);
+                createCard("second", "second card content", thirdCardList);
+                createCard("third", "third card content", thirdCardList);
+                createCard("fourth", "fourth card content", thirdCardList);
 
                 return null;
             });
     }
 
-    private CardList createCardList(final String title, final Card... cards) {
+    private CardList createCardList(final String title) {
         val result = new CardList();
         result.setTitle(title);
-        result.setCards(Arrays.asList(cards));
         em.persist(result);
         return result;
     }
 
-    private Card createCard(final String title, final String content) {
+    private Card createCard(final String title, final String content, final CardList cardList) {
         val result = new Card();
         result.setTitle(title);
         result.setContent(content);
+        result.setCardList(cardList);
         em.persist(result);
         return result;
     }

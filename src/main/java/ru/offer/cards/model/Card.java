@@ -35,4 +35,7 @@ public class Card {
     private String shortLink;
 
     private String content;
+
+    @ManyToOne
+    private CardList cardList;
 }

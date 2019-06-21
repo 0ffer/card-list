@@ -19,26 +19,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CardListRepositoryIntegrationTests extends BaseRepostoryIntegrationTest {
 
     @Test
-    public void createWithCard() {
-        val cardToCreate = new Card();
-        cardToCreate.setTitle("new card title");
-        cardToCreate.setContent("new card content");
-
-        val cardRepository = client.<Card, UUID>getRepositoryForType(Card.class);
-
-        val createdCard = cardRepository.create(cardToCreate);
-
+    public void create() {
         val cardListRepository = client.<CardList, Long>getRepositoryForType(CardList.class);
 
         val cardListToCreate = new CardList();
-
         cardListToCreate.setTitle("card list title");
-        cardListToCreate.getCards().add(createdCard);
 
         val createdCardList = docs.capture("Create simple card list").call(() -> cardListRepository.create(cardListToCreate));
 
         assertThat(createdCardList.getTitle()).isEqualTo(cardListToCreate.getTitle());
-        assertThat(createdCardList.getCards()).hasSize(1);
     }
 
     @Test

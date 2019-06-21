@@ -1,5 +1,6 @@
 package ru.offer.cards.model;
 
+import io.crnk.core.resource.annotations.JsonApiField;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import lombok.Data;
 
@@ -25,8 +26,8 @@ public class CardList {
     @NotNull
     private String title;
 
-    @OneToMany
-    @JoinColumn(name = "list_id")
+    @OneToMany(mappedBy = "cardList")
+    @JsonApiField(postable = false)
     private List<Card> cards = new ArrayList<>();
 
 }

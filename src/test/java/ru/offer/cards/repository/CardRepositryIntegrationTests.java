@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.offer.cards.model.Card;
+import ru.offer.cards.model.CardList;
 
 import java.util.UUID;
 
@@ -30,6 +31,25 @@ public class CardRepositryIntegrationTests extends BaseRepostoryIntegrationTest 
         val createdCard = docs.capture("Create card").call(() -> repository.create(cardToCreate));
 
         assertThat(cardToCreate).isEqualToIgnoringGivenFields(createdCard, "id", "shortLink");
+    }
+
+    @Test
+    public void createWithCardList() {
+        val cardRepository = client.<Card, UUID>getRepositoryForType(Card.class);
+        val cardListRepository = client.<CardList, Long>getRepositoryForType(CardList.class);
+
+        val cardListToCreate = new CardList();
+        cardListToCreate.setTitle("card list title");
+        val createdCardList = docs.capture("Create simple card list").call(() -> cardListRepository.create(cardListToCreate));
+
+        val cardToCreate = new Card();
+        cardToCreate.setTitle("new card title");
+        cardToCreate.setContent("new card content");
+        cardToCreate.setCardList(createdCardList);
+
+        val createdCard = docs.capture("Create card with CardList").call(() ->cardRepository.create(cardToCreate));
+
+        assertThat(createdCard.getCardList()).isNotNull();
     }
 
     @Test
