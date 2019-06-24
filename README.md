@@ -21,6 +21,26 @@ For this need to activate spring profile __init-test-data__
 
 If some data already exist in database, generation will interrupted.
 
+### security
+
+In application used Oauth2 + JWT security.
+
+Now only single static user available.
+
+To get token use next request:
+
+Basic auth credentials: _ClientId:secret_
+
+```
+   POST http://localhost:8080//oauth/token?grant_type=password&username=admin&password=admin HTTP/1.1
+   Accept: application/vnd.api+json
+   Content-Type: application/vnd.api+json; charset=utf-8
+   Authorization: Basic Q2xpZW50SWQ6c2VjcmV0
+  ```
+  
+  To disable authentication you may use property __security.enabled__. 
+  The property disable auth checks on _/api/**_ endpoints.
+
 ### documentation
 
 The documentation was generated when project builds.

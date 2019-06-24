@@ -6,7 +6,17 @@ import org.springframework.core.io.Resource;
 @ConfigurationProperties("security")
 public class SecurityProperties {
 
+    private boolean enabled = true;
+
     private JwtProperties jwt;
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public JwtProperties getJwt() {
         return jwt;

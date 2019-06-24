@@ -14,9 +14,11 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     private final TokenStore tokenStore;
+    private final SecurityProperties securityProperties;
 
-    public ResourceServerConfiguration(final TokenStore tokenStore) {
+    public ResourceServerConfiguration(final TokenStore tokenStore, final SecurityProperties securityProperties) {
         this.tokenStore = tokenStore;
+        this.securityProperties = securityProperties;
     }
 
     @Override
@@ -26,6 +28,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/api/**").authenticated();
+        if (securityProperties.getEnabled()) {
+            http.authorizeRequests().antMatchers("/api/**").authenticated();
+        } else {
+            http.authorizeRequests().antMatchers("/api/**").permitAll();
+        }
     }
 }
