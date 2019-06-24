@@ -34,6 +34,9 @@ public class Card {
     @JsonApiField(deletable = false, patchable = false, postable = false)
     private String shortLink;
 
+    @JsonApiField(filterable = false, sortable = false)
+    private byte[] image;
+
     private String content;
 
     @ManyToOne

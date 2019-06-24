@@ -1,5 +1,7 @@
 crnk:
   path-prefix: /api
+  security:
+    enabled: false
 spring:
   datasource:
     url: ${DB_URL}

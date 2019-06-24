@@ -5,6 +5,7 @@ import io.crnk.core.queryspec.FilterSpec;
 import io.crnk.core.queryspec.PathSpec;
 import io.crnk.core.queryspec.QuerySpec;
 import lombok.val;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,6 +51,34 @@ public class CardRepositryIntegrationTests extends BaseRepostoryIntegrationTest 
         val createdCard = docs.capture("Create card with CardList").call(() ->cardRepository.create(cardToCreate));
 
         assertThat(createdCard.getCardList()).isNotNull();
+    }
+
+    @Test
+    public void createWithImage() throws Exception {
+        val cardRepository = client.<Card, UUID>getRepositoryForType(Card.class);
+
+        val cardToCreate = new Card();
+        cardToCreate.setTitle("new card title");
+        cardToCreate.setContent("new card content");
+
+        val imageBytes = IOUtils.resourceToByteArray("card_image.png", this.getClass().getClassLoader());
+        cardToCreate.setImage(imageBytes);
+
+        val createdCard = docs.capture("Create card with image bytes").call(() -> cardRepository.create(cardToCreate));
+
+        // Uncomment to see the image, Add -Djava.awt.headless=false VM option to avoid Headless exception.
+        /*BufferedImage img = ImageIO.read(new ByteArrayInputStream(createdCard.getImage()));
+        ImageIcon icon = new ImageIcon(img);
+        JFrame frame = new JFrame();
+        frame.setLayout(new FlowLayout());
+        frame.setSize(200, 300);
+        JLabel lbl = new JLabel();
+        lbl.setIcon(icon);
+        frame.add(lbl);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+
+        assertThat(createdCard.getImage()).isNotNull();
     }
 
     @Test
