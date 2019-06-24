@@ -36,6 +36,11 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 	implementation "org.springframework.boot:spring-boot-starter-web"
 
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:$springBootVersion"
+
+	implementation "commons-io:commons-io:$apacheCommonsIOVersion"
+
 	implementation "io.crnk:crnk-setup-spring-boot2"
 	implementation "io.crnk:crnk-data-jpa"
 	implementation "io.crnk:crnk-home"
@@ -126,6 +131,7 @@ jib {
 	to {
 		image = '0ffer/card-list'
 		credHelper = 'secretservice'
+		tags = ['latest', version]
 	}
 }
 

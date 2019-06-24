@@ -18,3 +18,11 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/main.xml
+security:
+  jwt:
+    key-store: classpath:security/cards.jks
+    key-store-password: changeit
+    key-pair-alias: offer
+    key-pair-password: changeit
+    public-key: classpath:security/public.txt
+

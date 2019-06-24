@@ -2,10 +2,12 @@ crnk:
   path-prefix: /api
 spring:
   datasource:
-#    url: jdbc:postgresql://localhost:5433/postgres
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+#    url: jdbc:postgresql://localhost:5433/postgres
+#    username: postgres
+#    password: postgres
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,3 +21,11 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/main.xml
+
+security:
+  jwt:
+    key-store: classpath:security/cards.jks
+    key-store-password: changeit
+    key-pair-alias: offer
+    key-pair-password: changeit
+    public-key: classpath:security/public.txt
