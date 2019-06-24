@@ -10,6 +10,7 @@ services:
       - DB_URL=jdbc:postgresql://db:5432/postgres
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
+      - SECURITY_ENABLED=true
       - SPRING_PROFILES_ACTIVE=init-test-data
     depends_on:
       - db

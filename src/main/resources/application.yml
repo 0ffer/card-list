@@ -25,7 +25,7 @@ spring:
     change-log: classpath:/db/changelog/main.xml
 
 security:
-  enabled: true
+  enabled: ${SECURITY_ENABLED:true}
   jwt:
     key-store: classpath:security/cards.jks
     key-store-password: changeit
