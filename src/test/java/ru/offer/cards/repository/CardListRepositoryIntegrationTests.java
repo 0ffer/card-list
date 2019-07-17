@@ -31,11 +31,10 @@ public class CardListRepositoryIntegrationTests extends BaseRepostoryIntegration
     }
 
     @Test
-    @Ignore("It is an error in crnk client because Asciidoc decorator works not correct.")
     public void addCardToList() {
         val cardRepository = client.<Card, UUID>getRepositoryForType(Card.class);
         val cardListRepository = client.<CardList, Long>getRepositoryForType(CardList.class);
-        val cardListToCardRepository = client.<CardList, Long, Card, UUID>getManyRepositoryForType(CardList.class, Card.class);
+        val cardToCardListRepository = client.<Card, UUID, CardList, Long>getOneRepositoryForType(Card.class, CardList.class);
 
         val cardToCreate = new Card();
         cardToCreate.setTitle("new card title");
@@ -46,7 +45,7 @@ public class CardListRepositoryIntegrationTests extends BaseRepostoryIntegration
         cardListToCreate.setTitle("card list title");
         val createdCardList = cardListRepository.create(cardListToCreate);
 
-        docs.capture("Add card to list").call((Runnable)() -> cardListToCardRepository.addRelations(createdCardList, Collections.singletonList(createdCard.getId()), "cards"));
+        docs.capture("Add card to list").call((Runnable)() -> cardToCardListRepository.setRelation(createdCard, createdCardList.getId(), "cardList"));
 
         val queriedCardList = cardListRepository.findOne(createdCardList.getId(), null);
 

@@ -93,7 +93,7 @@ crnkGen.init()
 
 /* region documentation */
 
-crnkJavadocToXml {
+crnkJavaDocToXml {
 	options.getDocletpath().addAll(project.configurations.crnkJavaDocToXmlAdditional.getFiles())
 }
 
